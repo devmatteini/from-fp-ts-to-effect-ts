@@ -49,6 +49,5 @@ const getTodos = () =>
     )
 
 runTaskEither(getTodos()).catch((e) => {
-    console.error(e)
     process.exit(1)
 })

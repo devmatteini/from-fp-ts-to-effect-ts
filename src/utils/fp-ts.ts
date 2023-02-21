@@ -22,7 +22,7 @@ export const runTaskEither = async (te: TaskEither<unknown, unknown>) => {
     if (E.isRight(result)) {
         console.log(JSON.stringify(result.right, null, 2))
     } else {
-        console.error("Error!!!")
+        console.error("Error!!!\n", result.left)
         throw result.left
     }
 }
