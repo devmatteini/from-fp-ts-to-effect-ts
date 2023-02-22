@@ -16,6 +16,14 @@ const makeMarkAsCompleted = ({ loadTodo, saveTodo }: Deps) =>
         TE.chain(saveTodo),
     )
 
+const doNotation = ({ loadTodo, saveTodo }: Deps) =>
+    F.pipe(
+        loadTodo(),
+        TE.bindTo("loaded"),
+        TE.bind("completedTodo", ({ loaded }) => TE.right({ ...loaded, completed: true })),
+        TE.chain(({ completedTodo }) => saveTodo(completedTodo)),
+    )
+
 const markAsCompleted = makeMarkAsCompleted({
     loadTodo: () => TE.right({ id: 1, userId: 23, title: "ANY", completed: false }),
     saveTodo: (todo) =>
