@@ -27,3 +27,10 @@ npx tsx src/1-basic/effect.ts
 2. [Http](./src/2-http/) - From TaskEither to Effect
 
 3. [Services](./src/3-services/) - Dependency injection
+
+## Resources
+
+-   https://github.com/pigoz/effect-crashcourse
+-   https://github.com/fp-ts/schema
+-   [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)
+-   [EffectTS Discord](https://discord.gg/RVZKYxWfAJ)
