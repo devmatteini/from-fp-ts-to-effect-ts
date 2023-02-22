@@ -1,21 +1,8 @@
 import * as F from "fp-ts/function"
 import * as TE from "fp-ts/TaskEither"
-import * as t from "io-ts"
 import fetch from "node-fetch"
+import { Todos } from "../domain/fp-ts"
 import { decode, runTaskEither } from "../utils/fp-ts"
-
-const Todo = t.type(
-    {
-        userId: t.number,
-        id: t.number,
-        title: t.string,
-        completed: t.boolean,
-    },
-    "Todo",
-)
-type Todo = t.TypeOf<typeof Todo>
-
-const Todos = t.array(Todo, "Todos")
 
 const getTodos = () =>
     F.pipe(

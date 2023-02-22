@@ -1,18 +1,8 @@
 import * as F from "@effect/data/Function"
 import * as Effect from "@effect/io/Effect"
-import * as S from "@fp-ts/schema"
 import fetch from "node-fetch"
+import { Todos } from "../domain/effect"
 import { decode, fromPredicate, runEffect } from "../utils/effect"
-
-const Todo = S.struct({
-    userId: S.number,
-    id: S.number,
-    title: S.string,
-    completed: S.boolean,
-})
-type Todo = S.Infer<typeof Todo>
-
-const Todos = S.array(Todo)
 
 const getTodos = F.pipe(
     Effect.tryCatchPromise(
