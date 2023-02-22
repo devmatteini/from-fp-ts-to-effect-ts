@@ -1,7 +1,5 @@
 import * as F from "fp-ts/function"
 import * as TE from "fp-ts/TaskEither"
-import * as A from "fp-ts/Array"
-import * as E from "fp-ts/Either"
 import * as t from "io-ts"
 import fetch from "node-fetch"
 import { decode, runTaskEither } from "../utils/fp-ts"

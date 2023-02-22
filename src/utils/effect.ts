@@ -16,6 +16,11 @@ export const decode =
         return S.isSuccess(decoded) ? E.right(decoded.right) : E.left(formatErrors(decoded.left))
     }
 
+export const fromPredicate =
+    <E, A>(predicate: (a: A) => boolean, onFalse: (a: A) => E) =>
+    (a: A): Effect.Effect<never, E, A> =>
+        predicate(a) ? Effect.succeed(a) : Effect.fail(onFalse(a))
+
 export const runEffect = <E, A>(e: Effect.Effect<never, E, A>) =>
     Effect.runPromise(e)
         .then((x) => console.log(JSON.stringify(x, null, 2)))
