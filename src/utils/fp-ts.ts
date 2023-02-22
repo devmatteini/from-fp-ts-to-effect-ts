@@ -11,8 +11,8 @@ export const decode = <T>(type: t.Type<T, unknown>): Decoder<T> =>
         // keep new line
         type.decode,
         E.mapLeft((x) => {
-            const errors = PathReporter.report(E.left(x)).join("; ")
-            return `Unable to decode ${type.name}: ${errors}`
+            const errors = PathReporter.report(E.left(x)).join("\n  ")
+            return `Unable to decode ${type.name}:\n  ${errors}`
         }),
     )
 
