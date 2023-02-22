@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "format": "prettier --write **/*.ts",
+    "format": "prettier --write src/**/*.ts",
     "test": "vitest run",
     "test:w": "vitest watch",
     "typecheck": "tsc --noEmit",
