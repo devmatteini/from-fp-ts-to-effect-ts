@@ -2,17 +2,18 @@ import * as F from "@effect/data/Function"
 import * as Effect from "@effect/io/Effect"
 import fetch from "node-fetch"
 import { Todos } from "../domain/effect"
-import { decode, fromPredicate, runEffect } from "../utils/effect"
+import { decode, runEffect } from "../utils/effect"
 
 const getTodos = F.pipe(
     Effect.tryCatchPromise(
         () => fetch("https://jsonplaceholder.typicode.com/users/1/todos"),
         (e) => `Error fetching todos: ${e}`,
     ),
-    Effect.flatMap(
-        fromPredicate(
-            (response) => response.ok,
-            (response) => `Error fetch with status code ${response.status}`,
+    Effect.flatMap((response) =>
+        Effect.cond(
+            () => response.ok,
+            () => response,
+            () => `Error fetch with status code ${response.status}`,
         ),
     ),
     Effect.flatMap((response) =>
