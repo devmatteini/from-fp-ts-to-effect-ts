@@ -20,7 +20,14 @@ export const runTaskEither = async (te: TaskEither<unknown, unknown>) => {
     const result = await te()
 
     if (E.isRight(result)) {
-        console.log(JSON.stringify(result.right, null, 2))
+        const x = result.right
+
+        if (x === null || x === undefined) return
+        if (typeof x === "object") {
+            console.log(JSON.stringify(x, null, 2))
+            return
+        }
+        console.log(x)
     } else {
         console.error("Error!!!\n", result.left)
         throw result.left

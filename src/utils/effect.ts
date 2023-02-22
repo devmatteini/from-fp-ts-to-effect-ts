@@ -23,7 +23,14 @@ export const fromPredicate =
 
 export const runEffect = <E, A>(e: Effect.Effect<never, E, A>) =>
     Effect.runPromise(e)
-        .then((x) => console.log(JSON.stringify(x, null, 2)))
+        .then((x) => {
+            if (x === null || x === undefined) return
+            if (typeof x === "object") {
+                console.log(JSON.stringify(x, null, 2))
+                return
+            }
+            console.log(x)
+        })
         .catch((e) => {
             console.error("Error!!!\n", e)
             throw e
