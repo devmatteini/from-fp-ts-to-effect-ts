@@ -6,8 +6,6 @@ import * as t from "io-ts"
 import fetch from "node-fetch"
 import { decode, runTaskEither } from "../utils/fp-ts"
 
-const traverseE = A.traverse(E.Applicative)
-
 const Todo = t.type(
     {
         userId: t.number,
@@ -18,6 +16,8 @@ const Todo = t.type(
     "Todo",
 )
 type Todo = t.TypeOf<typeof Todo>
+
+const Todos = t.array(Todo, "Todos")
 
 const getTodos = () =>
     F.pipe(
@@ -32,20 +32,12 @@ const getTodos = () =>
             ),
         ),
         TE.chain((response) =>
-            F.pipe(
-                TE.tryCatch(
-                    () => response.json(),
-                    (e) => `Error parsing todos as json: ${e}`,
-                ),
-                TE.chainEitherK(
-                    E.fromPredicate(
-                        (json): json is unknown[] => Array.isArray(json),
-                        (x) => `Not an array but ${typeof x}`,
-                    ),
-                ),
+            TE.tryCatch(
+                () => response.json(),
+                (e) => `Error parsing todos as json: ${e}`,
             ),
         ),
-        TE.chainEitherK(F.flow(traverseE(decode(Todo)))),
+        TE.chainEitherK(F.flow(decode(Todos))),
     )
 
 runTaskEither(getTodos()).catch((e) => {
