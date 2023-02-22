@@ -3,6 +3,7 @@ import * as Context from "@effect/data/Context"
 import * as F from "@effect/data/Function"
 import { Todo } from "../domain/fp-ts"
 import { runEffect } from "../utils/effect"
+import { User } from "../domain/effect"
 
 interface LoadTodo {
     load: () => Effect.Effect<never, string, Todo>
@@ -14,26 +15,27 @@ interface SaveTodo {
 }
 const SaveTodo = Context.Tag<SaveTodo>()
 
+interface LoadUser {
+    load: () => Effect.Effect<never, string, User>
+}
+const LoadUser = Context.Tag<LoadUser>()
+
 const makeMarkAsCompleted = F.pipe(
-    Effect.tuple(Effect.service(LoadTodo), Effect.service(SaveTodo)),
-    Effect.flatMap(([loadTodo, saveTodo]) =>
+    Effect.tuple(Effect.service(LoadTodo), Effect.service(SaveTodo), Effect.service(LoadUser)),
+    Effect.flatMap(([loadTodo, saveTodo, loadUser]) =>
         F.pipe(
-            // keep new line
-            loadTodo.load(),
-            Effect.map(markCompleted),
-            Effect.flatMap(saveTodo.save),
+            Effect.struct({
+                todo: loadTodo.load(),
+                user: loadUser.load(),
+            }),
+            Effect.bindValue("completedTodo", ({ todo }) => markCompleted(todo)),
+            Effect.bind("_", ({ completedTodo }) => saveTodo.save(completedTodo)),
+            Effect.map(({ completedTodo, user }) => ({
+                todo: completedTodo.title,
+                userName: user.name,
+            })),
         ),
     ),
-)
-
-// Like fp-ts bindTo+bind api
-const doNotation = F.pipe(
-    Effect.Do(),
-    Effect.bind("loadTodo", () => Effect.service(LoadTodo)),
-    Effect.bind("saveTodo", () => Effect.service(SaveTodo)),
-    Effect.bind("loaded", ({ loadTodo }) => loadTodo.load()),
-    Effect.bindValue("completedTodo", ({ loaded }) => markCompleted(loaded)),
-    Effect.flatMap(({ completedTodo, saveTodo }) => saveTodo.save(completedTodo)),
 )
 
 /*  Like C# LINQ or similar to Rust "?" operator
@@ -51,11 +53,22 @@ const generators = Effect.gen(function* ($) {
     //               ~~~~~~
     //                   ^ delegate to another generator
     const saveTodo = yield* $(Effect.service(SaveTodo))
+    const loadUser = yield* $(Effect.service(LoadUser))
 
-    const loaded = yield* $(loadTodo.load())
-    const completed = markCompleted(loaded)
+    const { user, todo } = yield* $(
+        Effect.struct({
+            todo: loadTodo.load(),
+            user: loadUser.load(),
+        }),
+    )
 
-    yield* $(saveTodo.save(completed))
+    const completedTodo = markCompleted(todo)
+    yield* $(saveTodo.save(completedTodo))
+
+    return {
+        todo: completedTodo.title,
+        userName: user.name,
+    }
 })
 
 const markCompleted = (todo: Todo) => ({ ...todo, completed: true })
@@ -63,13 +76,17 @@ const markCompleted = (todo: Todo) => ({ ...todo, completed: true })
 const effect = F.pipe(
     makeMarkAsCompleted,
     Effect.provideService(LoadTodo, {
-        load: () => Effect.succeed({ id: 1, userId: 23, title: "ANY", completed: false }),
+        load: () =>
+            Effect.succeed({ id: 1, userId: 23, title: "Use more EffectTS", completed: false }),
     }),
     Effect.provideService(SaveTodo, {
         save: (todo) =>
             Effect.sync(() => {
-                console.log("Marked as completed: ", todo)
+                console.log(`Saved todo #${todo.id}`)
             }),
+    }),
+    Effect.provideService(LoadUser, {
+        load: () => Effect.succeed({ id: 23, name: "Cosimo" }),
     }),
 )
 
