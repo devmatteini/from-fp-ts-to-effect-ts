@@ -24,7 +24,7 @@ const makeMarkAsCompleted = F.pipe(
     Effect.tuple(Effect.service(LoadTodo), Effect.service(SaveTodo), Effect.service(LoadUser)),
     Effect.flatMap(([loadTodo, saveTodo, loadUser]) =>
         F.pipe(
-            Effect.struct({
+            Effect.structPar({
                 todo: loadTodo.load(),
                 user: loadUser.load(),
             }),
@@ -56,7 +56,7 @@ const generators = Effect.gen(function* ($) {
     const loadUser = yield* $(Effect.service(LoadUser))
 
     const { user, todo } = yield* $(
-        Effect.struct({
+        Effect.structPar({
             todo: loadTodo.load(),
             user: loadUser.load(),
         }),
