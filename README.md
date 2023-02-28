@@ -28,6 +28,7 @@ npx tsx src/1-basic/effect.ts
 2. [Http](./src/2-http) - From TaskEither to Effect
 3. [Services](./src/3-services) - Dependency injection
 4. [Parallelism](./src/4-parallelism) - Parallelism with https requests
+4. [Errors](./src/5-errors) - Errors, Defects and Interruptions
 
 ## EffectTS Resources
 
