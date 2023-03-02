@@ -25,10 +25,10 @@ npx tsx src/1-basic/effect.ts
 ## Modules
 
 1. [Basic](./src/1-basic) - How Effect works
-2. [Http](./src/2-http) - From TaskEither to Effect
-3. [Services](./src/3-services) - Dependency injection
-4. [Parallelism](./src/4-parallelism) - Parallelism with https requests
-4. [Errors](./src/5-errors) - Errors, Defects and Interruptions
+2. [Services](./src/2-services) - Dependency injection
+3. [Errors](./src/3-errors) - Errors, Defects and Interruptions
+4. [Http](./src/4-http) - From TaskEither to Effect
+5. [Parallelism](./src/5-parallelism) - Parallelism with https requests
 
 ## EffectTS Resources
 
