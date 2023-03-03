@@ -17,10 +17,10 @@ interface UserRepo {
 const UserRepo = Context.Tag<UserRepo>()
 
 const makeMarkAsCompleted = F.pipe(
-    Effect.tuple(Effect.service(TodoRepo), Effect.service(UserRepo)),
+    Effect.all(Effect.service(TodoRepo), Effect.service(UserRepo)),
     Effect.flatMap(([todoRepo, userRepo]) =>
         F.pipe(
-            Effect.structPar({
+            Effect.allPar({
                 todo: todoRepo.load(),
                 user: userRepo.load(),
             }),
@@ -51,7 +51,7 @@ const generators = Effect.gen(function* ($) {
     const userRepo = yield* $(Effect.service(UserRepo))
 
     const { user, todo } = yield* $(
-        Effect.structPar({
+        Effect.allPar({
             todo: todoRepo.load(),
             user: userRepo.load(),
         }),
