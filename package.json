@@ -12,7 +12,7 @@
   "dependencies": {
     "@effect/io": "0.5.0",
     "@effect/data": "0.3.1",
-    "@fp-ts/schema": "0.3.2",
+    "@effect/schema": "0.0.3",
     "fp-ts": "2.13.1",
     "io-ts": "2.2.20",
     "fp-ts-contrib": "0.1.29",

@@ -33,7 +33,7 @@ npx tsx src/1-basic/effect.ts
 ## EffectTS Resources
 
 - https://github.com/pigoz/effect-crashcourse
-- https://github.com/fp-ts/schema
+- https://github.com/Effect-TS/schema
 - https://github.com/Effect-TS/data
 - https://github.com/Effect-TS/io
 - [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)

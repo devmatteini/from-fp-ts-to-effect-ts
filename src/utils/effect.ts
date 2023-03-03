@@ -1,8 +1,8 @@
 import * as E from "@effect/data/Either"
 import { Either } from "@effect/data/Either"
 import * as Effect from "@effect/io/Effect"
-import * as S from "@fp-ts/schema"
-import { formatErrors } from "@fp-ts/schema/formatter/Tree"
+import * as S from "@effect/schema"
+import { formatErrors } from "@effect/schema/formatter/Tree"
 
 type Decoder<T> = (a: unknown) => Either<string, T>
 export const decode =
