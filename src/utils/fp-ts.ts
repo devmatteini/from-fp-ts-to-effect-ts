@@ -2,8 +2,10 @@ import * as E from "fp-ts/Either"
 import { Either } from "fp-ts/Either"
 import * as F from "fp-ts/function"
 import { TaskEither } from "fp-ts/TaskEither"
+import * as TE from "fp-ts/TaskEither"
 import * as t from "io-ts"
 import { PathReporter } from "io-ts/PathReporter"
+import { delay } from "./promise"
 
 type Decoder<T> = (a: unknown) => Either<string, T>
 export const decode = <T>(type: t.Type<T, unknown>): Decoder<T> =>
@@ -14,6 +16,15 @@ export const decode = <T>(type: t.Type<T, unknown>): Decoder<T> =>
             const errors = PathReporter.report(E.left(x)).join("\n  ")
             return `Unable to decode ${type.name}:\n  ${errors}`
         }),
+    )
+
+type DelayOptions = {
+    fail?: boolean
+}
+export const delayTE = (timeout: number, options?: DelayOptions) =>
+    TE.tryCatch(
+        () => delay(timeout, options?.fail),
+        (e) => `Failed delayTE: ${e}`,
     )
 
 export const runTaskEither = async (te: TaskEither<unknown, unknown>) => {
