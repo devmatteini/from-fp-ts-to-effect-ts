@@ -2,6 +2,13 @@ import * as Effect from "@effect/io/Effect"
 import * as F from "@effect/data/Function"
 import * as E from "@effect/data/Either"
 
+/*
+    Effect<R, E, A>
+    - R -> computation requirements
+ *  - E -> errors in case the computation fails
+ *  - A -> type in case the computation succeeds
+ */
+
 const s = Effect.succeed(7) // Effect.Effect<never, never, number>
 
 const f = Effect.fail(3) // Effect.Effect<never, number, never>
