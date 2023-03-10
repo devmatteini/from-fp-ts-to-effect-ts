@@ -1,4 +1,5 @@
 import * as E from "@effect/data/Either"
+import * as F from "@effect/data/Function"
 import { Either } from "@effect/data/Either"
 import * as Effect from "@effect/io/Effect"
 import * as S from "@effect/schema"
@@ -12,8 +13,7 @@ export const decode =
             allErrors: true,
             isUnexpectedAllowed: true,
         })
-        // FIXME: for some reason E.mapLeft does not work :(
-        return S.isSuccess(decoded) ? E.right(decoded.right) : E.left(formatErrors(decoded.left))
+        return F.pipe(decoded, E.mapLeft(formatErrors))
     }
 
 export const runEffect = <E, A>(e: Effect.Effect<never, E, A>) =>
