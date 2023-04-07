@@ -1,9 +1,8 @@
 import * as Effect from "@effect/io/Effect"
 import * as Context from "@effect/data/Context"
 import * as F from "@effect/data/Function"
-import { Todo } from "../domain/fp-ts"
 import { runEffect } from "../utils/effect"
-import { User } from "../domain/effect"
+import { User, Todo } from "../domain/effect"
 
 interface TodoRepo {
     load: () => Effect.Effect<never, string, Todo>
