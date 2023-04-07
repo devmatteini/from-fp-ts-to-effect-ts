@@ -9,7 +9,7 @@ type Decoder<T> = (a: unknown) => Either<string, T>
 export const decode =
     <T>(schema: S.Schema<T>): Decoder<T> =>
     (input) => {
-        let parser = S.parseEither(schema)
+        const parser = S.parseEither(schema)
         const parsed = parser(input, {
             errors: "all",
             onExcessProperty: "ignore",
