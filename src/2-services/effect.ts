@@ -17,14 +17,14 @@ interface UserRepo {
 const UserRepo = Context.Tag<UserRepo>()
 
 const makeMarkAsCompleted = F.pipe(
-    Effect.all(Effect.service(TodoRepo), Effect.service(UserRepo)),
+    Effect.all(TodoRepo, UserRepo),
     Effect.flatMap(([todoRepo, userRepo]) =>
         F.pipe(
             Effect.allPar({
                 todo: todoRepo.load(),
                 user: userRepo.load(),
             }),
-            Effect.bindValue("completedTodo", ({ todo }) => markCompleted(todo)),
+            Effect.let("completedTodo", ({ todo }) => markCompleted(todo)),
             Effect.bind("_", ({ completedTodo }) => todoRepo.save(completedTodo)),
             Effect.map(({ completedTodo, user }) => ({
                 todo: completedTodo.title,
@@ -45,10 +45,10 @@ const makeMarkAsCompleted = F.pipe(
 const generators = Effect.gen(function* ($) {
     //                        ~~~~~~~~~
     //                                ^ define generator function
-    const todoRepo = yield* $(Effect.service(TodoRepo))
+    const todoRepo = yield* $(TodoRepo)
     //               ~~~~~~
     //                   ^ delegate to another generator
-    const userRepo = yield* $(Effect.service(UserRepo))
+    const userRepo = yield* $(UserRepo)
 
     const { user, todo } = yield* $(
         Effect.allPar({
