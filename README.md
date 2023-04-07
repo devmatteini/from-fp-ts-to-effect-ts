@@ -30,6 +30,7 @@ npx tsx src/1-basic/effect.ts
 4. [Http](./src/4-http) - From TaskEither to Effect
 5. [Parallelism](./src/5-parallelism) - Parallelism of TaskEither/Effect
 6. [Retries](./src/6-retries) - Retries of TaskEither/Effect
+7. [Schema](./src/7-schema) - From io-ts to Schema
 
 ## EffectTS Resources
 

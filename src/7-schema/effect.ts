@@ -25,6 +25,7 @@ console.log("UserId from decode: ", userId)
 // ********** Custom Types **********
 // https://github.com/Effect-TS/schema#transformations
 
+// NOTE: this type is already available in schema: S.DateFromString
 const DateFromString = S.transformResult(
     S.string,
     S.date,
