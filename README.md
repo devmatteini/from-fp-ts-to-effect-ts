@@ -34,9 +34,14 @@ npx tsx src/1-basic/effect.ts
 
 ## EffectTS Resources
 
-- https://github.com/pigoz/effect-crashcourse
-- https://github.com/Effect-TS/schema
-- https://github.com/Effect-TS/data
-- https://github.com/Effect-TS/io
-- [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)
-- [EffectTS Discord](https://discord.gg/RVZKYxWfAJ)
+-   https://www.effect.website/docs/introduction (official docs)
+-   https://github.com/pigoz/effect-crashcourse
+-   [Effect for Beginners by Ethan Niser](https://youtu.be/fTN8BX5qj6s?si=fTQV4gU8Aq9bnvmY)
+-   [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)
+-   [EffectTS Discord](https://discord.gg/RVZKYxWfAJ)
+
+Sometimes reading the source code is needed:
+
+-   https://github.com/Effect-TS/schema
+-   https://github.com/Effect-TS/data
+-   https://github.com/Effect-TS/io
