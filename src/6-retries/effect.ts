@@ -8,7 +8,7 @@ const retryPolicy = F.pipe(
     // keep new line
     Schedule.recurs(4),
     Schedule.compose(Schedule.exponential(Duration.millis(200), 2.0)),
-    Schedule.mapEffect((x) => Effect.log(`Retrying in ${x.millis} milliseconds...`)),
+    Schedule.mapEffect((x) => Effect.log(`Retrying in ${Duration.toMillis(x)} milliseconds...`)),
 )
 
 const getTodos = F.pipe(

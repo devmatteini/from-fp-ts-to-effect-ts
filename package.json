@@ -10,9 +10,9 @@
     "typecheck:w": "tsc --noEmit --watch"
   },
   "dependencies": {
-    "@effect/io": "0.19.1",
-    "@effect/data": "0.11.4",
-    "@effect/schema": "0.11.1",
+    "@effect/io": "0.38.2",
+    "@effect/data": "0.17.6",
+    "@effect/schema": "0.33.2",
     "fp-ts": "2.13.1",
     "io-ts": "2.2.20",
     "fp-ts-contrib": "0.1.29",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "16.18.12",
-    "typescript": "4.9.5",
+    "typescript": "5.1.6",
     "vitest": "0.28.5",
     "prettier": "2.8.4",
     "tsx": "3.12.3"

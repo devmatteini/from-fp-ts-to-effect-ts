@@ -3,27 +3,24 @@ import * as Effect from "@effect/io/Effect"
 import fetch from "node-fetch"
 import { Todos } from "../domain/effect"
 import { decode, runEffect } from "../utils/effect"
-import * as E from "@effect/data/Either"
 
 const getTodos = F.pipe(
-    Effect.tryCatchPromise(
-        () => fetch("https://jsonplaceholder.typicode.com/users/1/todos"),
-        (e) => `Error fetching todos: ${e}`,
-    ),
-    Effect.flatMap(
-        E.liftPredicate(
-            (response) => response.ok,
-            (response) => `Error fetch with status code ${response.status}`,
-        ),
+    Effect.tryPromise({
+        try: () => fetch("https://jsonplaceholder.typicode.com/users/1/todos"),
+        catch: (e) => `Error fetching todos: ${e}`,
+    }),
+    Effect.flatMap((response) =>
+        response.ok
+            ? Effect.succeed(response)
+            : Effect.fail(`Error fetch with status code ${response.status}`),
     ),
     Effect.flatMap((response) =>
-        Effect.tryCatchPromise(
-            () => response.json(),
-            (e) => `Error parsing todos as json: ${e}`,
-        ),
+        Effect.tryPromise({
+            try: () => response.json(),
+            catch: (e) => `Error parsing todos as json: ${e}`,
+        }),
     ),
-    Effect.map(F.flow(decode(Todos))),
-    Effect.absolve,
+    Effect.flatMap(F.flow(decode(Todos))),
 )
 
 runEffect(getTodos).catch(() => {

@@ -4,6 +4,8 @@ import * as F from "@effect/data/Function"
 import { runEffect } from "../utils/effect"
 import { User, Todo } from "../domain/effect"
 
+// DOCS: https://www.effect.website/docs/context-management/services
+
 interface TodoRepo {
     load: () => Effect.Effect<never, string, Todo>
     save: (todo: Todo) => Effect.Effect<never, string, void>
@@ -16,13 +18,16 @@ interface UserRepo {
 const UserRepo = Context.Tag<UserRepo>()
 
 const makeMarkAsCompleted = F.pipe(
-    Effect.all(TodoRepo, UserRepo),
+    Effect.all([TodoRepo, UserRepo]),
     Effect.flatMap(([todoRepo, userRepo]) =>
         F.pipe(
-            Effect.allPar({
-                todo: todoRepo.load(),
-                user: userRepo.load(),
-            }),
+            Effect.all(
+                {
+                    todo: todoRepo.load(),
+                    user: userRepo.load(),
+                },
+                { concurrency: "unbounded" }, // run this effects in parallel with no limits (https://www.effect.website/docs/concurrency/concurrency-options)
+            ),
             Effect.let("completedTodo", ({ todo }) => markCompleted(todo)),
             Effect.bind("_", ({ completedTodo }) => todoRepo.save(completedTodo)),
             Effect.map(({ completedTodo, user }) => ({
@@ -50,10 +55,13 @@ const generators = Effect.gen(function* ($) {
     const userRepo = yield* $(UserRepo)
 
     const { user, todo } = yield* $(
-        Effect.allPar({
-            todo: todoRepo.load(),
-            user: userRepo.load(),
-        }),
+        Effect.all(
+            {
+                todo: todoRepo.load(),
+                user: userRepo.load(),
+            },
+            { concurrency: "unbounded" },
+        ),
     )
 
     const completedTodo = markCompleted(todo)
@@ -68,7 +76,7 @@ const generators = Effect.gen(function* ($) {
 const markCompleted = (todo: Todo) => ({ ...todo, completed: true })
 
 const effect = F.pipe(
-    makeMarkAsCompleted,
+    makeMarkAsCompleted, // change this for the version using generators
     Effect.provideService(TodoRepo, {
         load: () =>
             Effect.succeed({ id: 1, userId: 23, title: "Use more EffectTS", completed: false }),

@@ -26,14 +26,14 @@ console.log("UserId from decode: ", userId)
 // ********** Custom Types **********
 // https://github.com/Effect-TS/schema#transformations
 
-// NOTE: this type is already available in schema: S.DateFromString
+// NOTE: this type is already available in schema: S.Date
 const DateFromString = S.transformResult(
     S.string,
-    S.date,
+    S.DateFromSelf,
     (input) => {
         const result = Date.parse(input)
         return Number.isNaN(result)
-            ? PR.failure(PR.type(S.date.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.date'
+            ? PR.failure(PR.type(S.DateFromSelf.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.DateFromSelf'
             : PR.success(new Date(result))
     },
     (date) => PR.success(date.toISOString()),
@@ -44,7 +44,7 @@ type DateFromString = S.To<typeof DateFromString>
 const ctor: DateFromString = new Date("2023-04-32")
 console.log("DateFromString constructed manually: ", ctor)
 
-// Always use DateFromString.decode to ensure it's actually valid
+// Always decode DateFromString to ensure it's actually valid
 const dateFromString = F.pipe(
     S.parseEither(DateFromString)("2023-04-07"),
     E.getOrElse((x) => {
@@ -82,7 +82,10 @@ const invalidEmail = F.pipe(
         )
         const examples = F.pipe(
             AST.getAnnotation<string[]>(AST.ExamplesAnnotationId)(Email.ast),
-            O.match(F.constant(""), (x) => x.join(", ")),
+            O.match({
+                onNone: F.constant(""),
+                onSome: (x) => x.join(", "),
+            }),
             (x) => `Examples: ${x}`,
         )
         throw new Error(`Parse ${identifier}: ${formatErrors(x.errors)} (${examples})`)

@@ -59,19 +59,7 @@ const defect = F.pipe(
 )
 
 const catchAllCauseLog = Effect.catchAllCause(defect, (cause) =>
-    Effect.logErrorCauseMessage("Something went wrong", cause),
+    Effect.logError("Something went wrong", cause),
 )
 
 runEffect(catchAllCauseLog)
-
-// Transform Defect into failure discarding the Cause
-const absorb = F.pipe(defect, Effect.absorb)
-
-// Same as absorb, but also works with Interrupts
-const resurrect = F.pipe(
-    F.pipe(
-        Effect.succeed("ok"),
-        Effect.flatMap(() => Effect.interrupt()),
-    ),
-    Effect.resurrect,
-)

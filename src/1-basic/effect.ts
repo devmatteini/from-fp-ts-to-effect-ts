@@ -9,16 +9,16 @@ import * as E from "@effect/data/Either"
  *  - A -> type in case the computation succeeds
  */
 
-const s = Effect.succeed(7) // Effect.Effect<never, never, number>
+const succeed = Effect.succeed(7) // Effect.Effect<never, never, number>
 
-const f = Effect.fail(3) // Effect.Effect<never, number, never>
+const fail = Effect.fail(3) // Effect.Effect<never, number, never>
 
-const ss = Effect.sync(() => {
+const sync = Effect.sync(() => {
     console.log("hello from Effect.sync")
     return 4
 }) // Effect.Effect<never, never, number>
 
-const sf = Effect.failSync(() => {
+const failSync = Effect.failSync(() => {
     console.log("hello from Effect.failSync")
     return 4
 }) // Effect.Effect<never, number, never>
@@ -26,12 +26,14 @@ const sf = Effect.failSync(() => {
 const eitherFromRandom = (random: number): E.Either<string, number> =>
     random > 0.5 ? E.right(random) : E.left("Number is less than 0.5")
 
+// Either<E, A> and Option<A> are subtype of Effect so can be mixed together!
+// https://www.effect.website/docs/data-types/either#interop-with-effect
+// https://www.effect.website/docs/data-types/option#interop-with-effect
 const x = F.pipe(
     Effect.sync(() => Math.random()), // Effect.Effect<never, never, number>
-    Effect.map(eitherFromRandom), // Effect.Effect<never, never, Either<string, number>>
-    Effect.flatMap(Effect.fromEither), // Effect.Effect<never, string, number>
-    // or Effect.absolve
+    Effect.flatMap(eitherFromRandom), // Effect.Effect<never, string, number>
 )
 
-// Run Effect (can also run it as Promise)
+// Run Effect
+// NOTE: Since you can also run async operations inside Effect, you should always use Effect.runPromise
 console.log(Effect.runSync(x))
