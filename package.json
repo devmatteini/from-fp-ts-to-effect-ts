@@ -1,7 +1,7 @@
 {
   "name": "from-fp-ts-to-effect-ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "An exploration of EffectTS ecosystem from fp-ts user prospective",
   "scripts": {
     "format": "prettier --write src/**/*.ts",
     "test": "vitest run",
