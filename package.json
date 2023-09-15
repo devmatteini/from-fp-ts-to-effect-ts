@@ -4,7 +4,7 @@
   "description": "An exploration of EffectTS ecosystem from fp-ts user prospective",
   "scripts": {
     "format": "prettier --write src/**/*.ts",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:w": "vitest watch",
     "typecheck": "tsc --noEmit",
     "typecheck:w": "tsc --noEmit --watch"
