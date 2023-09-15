@@ -10,7 +10,7 @@ import * as O from "@effect/data/Option"
 // https://github.com/Effect-TS/schema#branded-types
 
 const UserId = F.pipe(S.number, S.brand("UserId"))
-type UserId = S.To<typeof UserId>
+type UserId = S.Schema.To<typeof UserId>
 
 // @ts-expect-error
 const notAUserId: UserId = 10
@@ -27,7 +27,7 @@ console.log("UserId from decode: ", userId)
 // https://github.com/Effect-TS/schema#transformations
 
 // NOTE: this type is already available in schema: S.Date
-const DateFromString = S.transformResult(
+const DateFromString = S.transform(
     S.string,
     S.DateFromSelf,
     (input) => {
@@ -38,7 +38,7 @@ const DateFromString = S.transformResult(
     },
     (date) => PR.success(date.toISOString()),
 )
-type DateFromString = S.To<typeof DateFromString>
+type DateFromString = S.Schema.To<typeof DateFromString>
 
 // NOTE: without branded types you can directly create the underlying type, but it might not be valid
 const ctor: DateFromString = new Date("2023-04-32")
