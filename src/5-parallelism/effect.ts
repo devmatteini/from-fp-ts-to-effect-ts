@@ -1,7 +1,7 @@
-import * as F from "@effect/data/Function"
-import * as ROA from "@effect/data/ReadonlyArray"
-import * as Effect from "@effect/io/Effect"
-import * as Duration from "@effect/data/Duration"
+import * as F from "effect/Function"
+import * as ROA from "effect/ReadonlyArray"
+import * as Effect from "effect/Effect"
+import * as Duration from "effect/Duration"
 import { Todo } from "../domain/effect"
 import { runEffect } from "../utils/effect"
 

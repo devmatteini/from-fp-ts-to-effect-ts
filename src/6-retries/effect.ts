@@ -1,7 +1,7 @@
-import * as F from "@effect/data/Function"
-import * as Effect from "@effect/io/Effect"
-import * as Duration from "@effect/data/Duration"
-import * as Schedule from "@effect/io/Schedule"
+import * as F from "effect/Function"
+import * as Effect from "effect/Effect"
+import * as Duration from "effect/Duration"
+import * as Schedule from "effect/Schedule"
 import { runEffect } from "../utils/effect"
 
 const retryPolicy = F.pipe(

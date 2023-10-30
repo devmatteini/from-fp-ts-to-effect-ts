@@ -1,5 +1,5 @@
-import * as F from "@effect/data/Function"
-import * as Effect from "@effect/io/Effect"
+import * as F from "effect/Function"
+import * as Effect from "effect/Effect"
 import fetch from "node-fetch"
 import { Todos } from "../domain/effect"
 import { decode, runEffect } from "../utils/effect"

@@ -1,6 +1,6 @@
-import * as Effect from "@effect/io/Effect"
-import * as Context from "@effect/data/Context"
-import * as F from "@effect/data/Function"
+import * as Effect from "effect/Effect"
+import * as Context from "effect/Context"
+import * as F from "effect/Function"
 import { runEffect } from "../utils/effect"
 import { User, Todo } from "../domain/effect"
 

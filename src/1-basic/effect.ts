@@ -1,6 +1,6 @@
-import * as Effect from "@effect/io/Effect"
-import * as F from "@effect/data/Function"
-import * as E from "@effect/data/Either"
+import * as Effect from "effect/Effect"
+import * as F from "effect/Function"
+import * as E from "effect/Either"
 
 /*
     Effect<R, E, A>

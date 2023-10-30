@@ -1,7 +1,7 @@
-import * as Effect from "@effect/io/Effect"
-import * as Context from "@effect/data/Context"
-import * as Layer from "@effect/io/Layer"
-import * as F from "@effect/data/Function"
+import * as Effect from "effect/Effect"
+import * as Context from "effect/Context"
+import * as Layer from "effect/Layer"
+import * as F from "effect/Function"
 
 type MyObject = {
     id: string
@@ -68,7 +68,7 @@ const main = () =>
     F.pipe(
         handler("1234"),
         Effect.tap(() => Effect.logInfo("done")),
-        Effect.provideLayer(Layer.provide(RepositoryLive, HandlerLive)),
+        Effect.provide(Layer.provide(RepositoryLive, HandlerLive)),
         Effect.runPromise,
     )
 

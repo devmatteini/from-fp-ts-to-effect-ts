@@ -1,8 +1,8 @@
-import * as Effect from "@effect/io/Effect"
-import * as F from "@effect/data/Function"
-import * as Data from "@effect/data/Data"
-import * as Equal from "@effect/data/Equal"
-import * as Cause from "@effect/io/Cause"
+import * as Effect from "effect/Effect"
+import * as F from "effect/Function"
+import * as Data from "effect/Data"
+import * as Equal from "effect/Equal"
+import * as Cause from "effect/Cause"
 import { runEffect } from "../utils/effect"
 
 interface TransientError extends Data.Case {

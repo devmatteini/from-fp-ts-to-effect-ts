@@ -1,10 +1,10 @@
-import * as F from "@effect/data/Function"
-import * as E from "@effect/data/Either"
+import * as F from "effect/Function"
+import * as E from "effect/Either"
 import * as S from "@effect/schema/Schema"
 import * as AST from "@effect/schema/AST"
 import { formatErrors } from "@effect/schema/TreeFormatter"
 import * as PR from "@effect/schema/ParseResult"
-import * as O from "@effect/data/Option"
+import * as O from "effect/Option"
 
 // ********** Branded types **********
 // https://github.com/Effect-TS/schema#branded-types
@@ -27,13 +27,13 @@ console.log("UserId from decode: ", userId)
 // https://github.com/Effect-TS/schema#transformations
 
 // NOTE: this type is already available in schema: S.Date
-const DateFromString = S.transform(
+const DateFromString = S.transformOrFail(
     S.string,
-    S.DateFromSelf,
+    S.ValidDateFromSelf,
     (input) => {
         const result = Date.parse(input)
         return Number.isNaN(result)
-            ? PR.failure(PR.type(S.DateFromSelf.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.DateFromSelf'
+            ? PR.failure(PR.type(S.ValidDateFromSelf.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.DateFromSelf'
             : PR.success(new Date(result))
     },
     (date) => PR.success(date.toISOString()),

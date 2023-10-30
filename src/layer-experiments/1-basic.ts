@@ -1,7 +1,7 @@
-import * as Effect from "@effect/io/Effect"
-import * as Context from "@effect/data/Context"
-import * as Layer from "@effect/io/Layer"
-import * as F from "@effect/data/Function"
+import * as Effect from "effect/Effect"
+import * as Context from "effect/Context"
+import * as Layer from "effect/Layer"
+import * as F from "effect/Function"
 
 type MyObject = {
     id: string
@@ -59,8 +59,8 @@ const handler = (id: string): Effect.Effect<HandlerDeps, never, void> =>
     )
 
 const HandlerLive = Layer.succeed(HandlerDeps, {
-    load: (id) => F.pipe(load(id), Effect.provideLayer(RepositoryLive)),
-    save: (obj) => F.pipe(save(obj), Effect.provideLayer(RepositoryLive)),
+    load: (id) => F.pipe(load(id), Effect.provide(RepositoryLive)),
+    save: (obj) => F.pipe(save(obj), Effect.provide(RepositoryLive)),
 })
 
 // main.ts
@@ -68,7 +68,7 @@ const main = () =>
     F.pipe(
         handler("1234"),
         Effect.tap(() => Effect.logInfo("done")),
-        Effect.provideLayer(HandlerLive),
+        Effect.provide(HandlerLive),
         Effect.runPromise,
     )
 

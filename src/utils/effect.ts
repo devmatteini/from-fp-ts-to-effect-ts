@@ -1,7 +1,7 @@
-import * as E from "@effect/data/Either"
-import * as F from "@effect/data/Function"
-import { Either } from "@effect/data/Either"
-import * as Effect from "@effect/io/Effect"
+import * as E from "effect/Either"
+import * as F from "effect/Function"
+import { Either } from "effect/Either"
+import * as Effect from "effect/Effect"
 import * as S from "@effect/schema/Schema"
 import { formatErrors } from "@effect/schema/TreeFormatter"
 
