@@ -5,6 +5,8 @@ prospective.
 
 ## Usage
 
+Node v18 or higher
+
 ```shell
 npm install
 npm typecheck
