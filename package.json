@@ -10,19 +10,19 @@
     "typecheck:w": "tsc --noEmit --watch"
   },
   "dependencies": {
-    "effect": "2.0.0-next.52",
-    "@effect/schema": "0.46.2",
-    "fp-ts": "2.13.1",
+    "effect": "2.0.0-next.55",
+    "@effect/schema": "0.48.0",
+    "fp-ts": "2.16.1",
     "io-ts": "2.2.20",
     "fp-ts-contrib": "0.1.29",
     "retry-ts": "0.1.4",
-    "node-fetch": "3.3.0"
+    "node-fetch": "3.3.2"
   },
   "devDependencies": {
     "@types/node": "16.18.12",
-    "typescript": "5.1.6",
-    "vitest": "0.28.5",
-    "prettier": "2.8.4",
+    "typescript": "5.2.2",
+    "vitest": "0.34.6",
+    "prettier": "3.1.0",
     "tsx": "3.12.3"
   }
 }
