@@ -5,20 +5,20 @@ import * as Equal from "effect/Equal"
 import * as Cause from "effect/Cause"
 import { runEffect } from "../utils/effect"
 
-interface TransientError extends Data.Case {
+interface TransientError {
     _tag: "TransientError"
     message: string
 }
 const TransientError = Data.tagged<TransientError>("TransientError")
 
-interface FatalError extends Data.Case {
+interface FatalError {
     _tag: "FatalError"
     message: string
 }
 const FatalError = Data.tagged<FatalError>("FatalError")
 
 // --- Failures ---
-// Expected and recoverable errors. This is the E type parameter in Effect<R, E, A>
+// Expected and recoverable errors. This is the E type parameter in Effect<A, E, R>
 
 const someError = F.pipe(
     Effect.fail(TransientError({ message: "http timeout" })),
@@ -43,7 +43,7 @@ Other alternatives:
 */
 
 // --- Defects ---
-// Unexpected and unrecoverable errors. This are not part of Effect<R, E, A>
+// Unexpected and unrecoverable errors. This are not part of Effect<A, E, R>
 // The Effect runtime keeps track of this errors in structure called Cause that you can inspect
 // --- Interruption ---
 // Interrupt the execution of a Fiber

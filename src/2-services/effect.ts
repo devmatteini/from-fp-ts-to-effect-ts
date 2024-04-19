@@ -7,15 +7,15 @@ import { User, Todo } from "../domain/effect"
 // DOCS: https://www.effect.website/docs/context-management/services
 
 interface TodoRepo {
-    load: () => Effect.Effect<never, string, Todo>
-    save: (todo: Todo) => Effect.Effect<never, string, void>
+    load: () => Effect.Effect<Todo, string>
+    save: (todo: Todo) => Effect.Effect<void, string>
 }
-const TodoRepo = Context.Tag<TodoRepo>()
+const TodoRepo = Context.GenericTag<TodoRepo>("@services/TodoRepo")
 
 interface UserRepo {
-    load: () => Effect.Effect<never, string, User>
+    load: () => Effect.Effect<User, string>
 }
-const UserRepo = Context.Tag<UserRepo>()
+const UserRepo = Context.GenericTag<UserRepo>("@services/UserRepo")
 
 const makeMarkAsCompleted = F.pipe(
     Effect.all([TodoRepo, UserRepo]),

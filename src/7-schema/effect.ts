@@ -2,7 +2,7 @@ import * as F from "effect/Function"
 import * as E from "effect/Either"
 import * as S from "@effect/schema/Schema"
 import * as AST from "@effect/schema/AST"
-import { formatErrors } from "@effect/schema/TreeFormatter"
+import { formatError } from "@effect/schema/TreeFormatter"
 import * as PR from "@effect/schema/ParseResult"
 import * as O from "effect/Option"
 
@@ -16,9 +16,9 @@ type UserId = S.Schema.To<typeof UserId>
 const notAUserId: UserId = 10
 
 const userId = F.pipe(
-    S.parseEither(UserId)(10),
+    S.decodeUnknownEither(UserId)(10),
     E.getOrElse((x) => {
-        throw new Error(`Not a UserID: ${formatErrors(x.errors)}`)
+        throw new Error(`Not a UserID: ${formatError(x)}`)
     }),
 )
 console.log("UserId from decode: ", userId)
@@ -33,10 +33,10 @@ const DateFromString = S.transformOrFail(
     (input) => {
         const result = Date.parse(input)
         return Number.isNaN(result)
-            ? PR.failure(PR.type(S.ValidDateFromSelf.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.DateFromSelf'
-            : PR.success(new Date(result))
+            ? PR.fail(PR.type(S.ValidDateFromSelf.ast, input)) // PR.type means: an error that occurs when the actual value is not of the expected type, in this case is not 'S.DateFromSelf'
+            : PR.succeed(new Date(result))
     },
-    (date) => PR.success(date.toISOString()),
+    (date) => PR.succeed(date.toISOString()),
 )
 type DateFromString = S.Schema.To<typeof DateFromString>
 
@@ -46,9 +46,9 @@ console.log("DateFromString constructed manually: ", ctor)
 
 // Always decode DateFromString to ensure it's actually valid
 const dateFromString = F.pipe(
-    S.parseEither(DateFromString)("2023-04-07"),
+    S.decodeUnknownEither(DateFromString)("2023-04-07"),
     E.getOrElse((x) => {
-        throw new Error(`Not a DateFromString: ${formatErrors(x.errors)}`)
+        throw new Error(`Not a DateFromString: ${formatError(x)}`)
     }),
 )
 console.log("DateFromString from decode: ", dateFromString)
@@ -72,23 +72,10 @@ const Email = F.pipe(
 )
 
 const invalidEmail = F.pipe(
-    S.parseEither(Email)("any@email"),
+    S.decodeUnknownEither(Email)("any@email"),
     E.getOrElse((x) => {
-        // We can retrive the 'identifier' annotation to enrich the error message.
-        // This is like using io-ts <Type>.name, but require a bit more work
-        const identifier = F.pipe(
-            AST.getAnnotation<string>(AST.IdentifierAnnotationId)(Email.ast),
-            O.getOrElse(F.constant("unknown schema")),
-        )
-        const examples = F.pipe(
-            AST.getAnnotation<string[]>(AST.ExamplesAnnotationId)(Email.ast),
-            O.match({
-                onNone: F.constant(""),
-                onSome: (x) => x.join(", "),
-            }),
-            (x) => `Examples: ${x}`,
-        )
-        throw new Error(`Parse ${identifier}: ${formatErrors(x.errors)} (${examples})`)
+        // TODO: make sure identifier and examples are logged
+        throw new Error(`Parse Error: ${formatError(x)}`)
     }),
 )
 console.log("Email decode with annotation: ", invalidEmail)

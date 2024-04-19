@@ -3,25 +3,25 @@ import * as F from "effect/Function"
 import * as E from "effect/Either"
 
 /*
-    Effect<R, E, A>
+    Effect<A, E, R>
+    - A -> type in case the computation succeeds
+    - E -> errors in case the computation fails
     - R -> computation requirements
- *  - E -> errors in case the computation fails
- *  - A -> type in case the computation succeeds
  */
 
-const succeed = Effect.succeed(7) // Effect.Effect<never, never, number>
+const succeed = Effect.succeed(7) // Effect.Effect<number>
 
-const fail = Effect.fail(3) // Effect.Effect<never, number, never>
+const fail = Effect.fail(3) // Effect.Effect<never, number>
 
 const sync = Effect.sync(() => {
     console.log("hello from Effect.sync")
     return 4
-}) // Effect.Effect<never, never, number>
+}) // Effect.Effect<number>
 
 const failSync = Effect.failSync(() => {
     console.log("hello from Effect.failSync")
     return 4
-}) // Effect.Effect<never, number, never>
+}) // Effect.Effect<never, number>
 
 const eitherFromRandom = (random: number): E.Either<string, number> =>
     random > 0.5 ? E.right(random) : E.left("Number is less than 0.5")
@@ -30,8 +30,8 @@ const eitherFromRandom = (random: number): E.Either<string, number> =>
 // https://www.effect.website/docs/data-types/either#interop-with-effect
 // https://www.effect.website/docs/data-types/option#interop-with-effect
 const x = F.pipe(
-    Effect.sync(() => Math.random()), // Effect.Effect<never, never, number>
-    Effect.flatMap(eitherFromRandom), // Effect.Effect<never, string, number>
+    Effect.sync(() => Math.random()), // Effect.Effect<number>
+    Effect.flatMap(eitherFromRandom), // Effect.Effect<number, string>
 )
 
 // Run Effect
