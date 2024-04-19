@@ -3,6 +3,9 @@
 An exploration of [EffectTS](https://github.com/Effect-TS/) ecosystem from [fp-ts](https://github.com/gcanti/fp-ts) user
 prospective.
 
+> [!NOTE]
+> This repository is up-to-date with [Effect 3.0](https://effect.website/blog/effect-3.0) stable release
+
 ## Usage
 
 Node v18 or higher
@@ -36,14 +39,15 @@ npx tsx src/1-basic/effect.ts
 
 ## EffectTS Resources
 
--   https://www.effect.website/docs/introduction (official docs)
--   https://github.com/pigoz/effect-crashcourse
--   [Effect for Beginners by Ethan Niser](https://youtu.be/fTN8BX5qj6s?si=fTQV4gU8Aq9bnvmY)
--   [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)
--   [EffectTS Discord](https://discord.gg/RVZKYxWfAJ)
+- https://www.effect.website/docs/introduction (official docs, best place to start!)
+- [Production-Grade TypeScript by Johannes Schickling (Effect Days 2024)](https://youtu.be/PxIBWjiv3og?si=BzEcvjtv6idG6D3L)
+- https://cosimomatteini.com/blog/build-applications-with-effect
+- https://github.com/antoine-coulon/effect-introduction
+- https://github.com/pigoz/effect-crashcourse
+- [Effect for Beginners by Ethan Niser](https://youtu.be/fTN8BX5qj6s?si=fTQV4gU8Aq9bnvmY)
+- [Introduction to Effect, Michael Arnaldi, WorkerConf 2022 Dornbirn](https://www.youtube.com/watch?v=zrNr3JVUc8I)
+- [EffectTS Discord](https://discord.gg/RVZKYxWfAJ)
 
-Sometimes reading the source code is needed:
+Effect source code:
 
--   https://github.com/Effect-TS/schema
--   https://github.com/Effect-TS/data
--   https://github.com/Effect-TS/io
+- https://github.com/Effect-TS/effect
