@@ -1,18 +1,18 @@
 import * as S from "@effect/schema/Schema"
 
-export const Todo = S.struct({
-    userId: S.number,
-    id: S.number,
-    title: S.string,
-    completed: S.boolean,
+export const Todo = S.Struct({
+    userId: S.Number,
+    id: S.Number,
+    title: S.String,
+    completed: S.Boolean,
 })
-export interface Todo extends S.Schema.To<typeof Todo> {}
+export interface Todo extends S.Schema.Type<typeof Todo> {}
 
-export const Todos = S.array(Todo)
-export interface Todos extends S.Schema.To<typeof Todos> {}
+export const Todos = S.Array(Todo)
+export interface Todos extends S.Schema.Type<typeof Todos> {}
 
-export const User = S.struct({
-    id: S.number,
-    name: S.string,
+export const User = S.Struct({
+    id: S.Number,
+    name: S.String,
 })
-export interface User extends S.Schema.To<typeof User> {}
+export interface User extends S.Schema.Type<typeof User> {}

@@ -23,7 +23,7 @@ const failSync = Effect.failSync(() => {
     return 4
 }) // Effect.Effect<never, number>
 
-const eitherFromRandom = (random: number): E.Either<string, number> =>
+const eitherFromRandom = (random: number): E.Either<number, string> =>
     random > 0.5 ? E.right(random) : E.left("Number is less than 0.5")
 
 // Either<E, A> and Option<A> are subtype of Effect so can be mixed together!

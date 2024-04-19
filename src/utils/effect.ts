@@ -3,9 +3,9 @@ import * as F from "effect/Function"
 import { Either } from "effect/Either"
 import * as Effect from "effect/Effect"
 import * as S from "@effect/schema/Schema"
-import { formatError } from "@effect/schema/TreeFormatter"
+import { formatErrorSync } from "@effect/schema/TreeFormatter"
 
-type Decoder<T> = (a: unknown) => Either<string, T>
+type Decoder<T> = (a: unknown) => Either<T, string>
 export const decode =
     <T>(schema: S.Schema<T>): Decoder<T> =>
     (input) => {
@@ -16,7 +16,7 @@ export const decode =
         })
         return F.pipe(
             parsed,
-            E.mapLeft((x) => formatError(x)),
+            E.mapLeft((x) => formatErrorSync(x)),
         )
     }
 
