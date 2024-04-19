@@ -1,5 +1,5 @@
 import * as F from "effect/Function"
-import * as ROA from "effect/ReadonlyArray"
+import * as ROA from "effect/Array"
 import * as Effect from "effect/Effect"
 import * as Duration from "effect/Duration"
 import { Todo } from "../domain/effect"
